@@ -1,0 +1,144 @@
+---
+import { Image } from 'astro:assets';
+import sobreImage from '../../public/images/sobre.webp'; // La imagen ahora viene de public
+---
+
+<section id="about" class="relative py-20 overflow-hidden scroll-mt-24">
+  <div class="absolute inset-0 -z-10">
+    <div
+      class="absolute inset-0 bg-gradient-to-br from-blue-50/30 via-transparent to-purple-50/30 dark:from-blue-900/10 dark:via-transparent dark:to-purple-900/10"
+    >
+    </div>
+    <div class="absolute top-0 left-0 w-full h-full opacity-40">
+      <svg
+        class="w-full h-full"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 1440 320"
+      >
+        <path
+          fill="currentColor"
+          class="text-blue-200/20 dark:text-blue-800/20"
+          fill-opacity="1"
+          d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,138.7C960,139,1056,117,1152,106.7C1248,96,1344,96,1392,96L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
+        ></path>
+      </svg>
+    </div>
+  </div>
+
+  <div class="container max-w-4xl px-6 mx-auto">
+    <div class="flex flex-col gap-12">
+      <div class="flex flex-col gap-6 text-center">
+        <h2
+          class="relative inline-block text-3xl font-bold md:text-4xl text-slate-900 dark:text-white font-display"
+        >
+          Acerca de mí
+          <span
+            class="absolute bottom-0 w-24 h-1 transform -translate-x-1/2 rounded-full left-1/2 bg-gradient-to-r from-blue-500 to-purple-500"
+          ></span>
+        </h2>
+        <p
+          class="max-w-2xl mx-auto text-lg leading-relaxed text-slate-600 dark:text-slate-400"
+        >
+          Desarrollador web de Camagüey, Cuba, graduado en la Universidad
+          Ignacio Agramonte Loynaz, especializado en crear experiencias
+          digitales únicas.
+        </p>
+      </div>
+
+      <div class="grid items-center gap-12 md:grid-cols-2">
+        <div class="flex flex-col order-2 gap-8 md:order-1">
+          <div class="space-y-2">
+            <h3
+              class="text-2xl font-bold text-slate-900 dark:text-slate-100 font-display"
+            >
+              Sobre mí
+            </h3>
+            <p class="leading-relaxed text-slate-600 dark:text-slate-400">
+              Soy un desarrollador web de Camagüey, Cuba. Apasionado por la
+              tecnología y la innovación, me especializo en crear soluciones
+              digitales modernas y eficientes que ayuden a las empresas a crecer
+              en el mundo digital.
+            </p>
+          </div>
+          <div class="space-y-2">
+            <h3
+              class="text-2xl font-bold text-slate-900 dark:text-slate-100 font-display"
+            >
+              Educación
+            </h3>
+            <p class="leading-relaxed text-slate-600 dark:text-slate-400">
+              Graduado en Ingeniería Informática en la Universidad Ignacio
+              Agramonte Loynaz de Camagüey, con especialización en desarrollo
+              web y tecnologías modernas. Constantemente actualizando mis
+              conocimientos para ofrecer las mejores soluciones.
+            </p>
+          </div>
+          <div class="space-y-2">
+            <h3
+              class="text-2xl font-bold text-slate-900 dark:text-slate-100 font-display"
+            >
+              Experiencia
+            </h3>
+            <p class="leading-relaxed text-slate-600 dark:text-slate-400">
+              He trabajado en diversos proyectos de desarrollo web, tanto en
+              Cuba como internacionalmente, creando aplicaciones web modernas y
+              responsivas que se adaptan a las necesidades de cada cliente.
+            </p>
+          </div>
+        </div>
+
+        <div class="flex justify-center order-1 md:order-2">
+          <div class="relative group">
+            <div
+              class="absolute transition duration-1000 opacity-25 -inset-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-3xl blur group-hover:opacity-40"
+            >
+            </div>
+            <div
+              class="relative overflow-hidden transition-all duration-500 transform border-4 border-white shadow-2xl rounded-3xl dark:border-slate-800 -rotate-3 group-hover:-rotate-1 group-hover:scale-105"
+            >
+              <Image
+                src={sobreImage}
+                alt="Foto de Reineldi Umpierre"
+                class="object-cover transition-transform duration-700 w-80 h-80 group-hover:scale-110"
+                width={320}
+                height={320}
+                format="webp"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  @keyframes fadeInLeft {
+    from {
+      opacity: 0;
+      transform: translateX(-30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  @keyframes fadeInRight {
+    from {
+      opacity: 0;
+      transform: translateX(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  .md\:grid > div:first-child {
+    animation: fadeInLeft 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    opacity: 0;
+  }
+  .md\:grid > div:last-child {
+    animation: fadeInRight 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    opacity: 0;
+  }
+</style>

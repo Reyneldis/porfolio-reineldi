@@ -1,0 +1,348 @@
+---
+// src/components/ContactSection.astro
+---
+
+<section id="contact" class="relative py-32 overflow-hidden scroll-mt-24">
+  <!-- Fondo con efecto de humo -->
+  <div class="absolute inset-0 -z-10">
+    <div
+      class="absolute inset-0 bg-gradient-to-br from-blue-50/30 via-transparent to-purple-50/30 dark:from-blue-900/10 dark:via-transparent dark:to-purple-900/10"
+    >
+    </div>
+    <div class="absolute top-0 left-0 w-full h-full">
+      <div class="smoke-container">
+        <div class="smoke smoke-1"></div>
+        <div class="smoke smoke-2"></div>
+        <div class="smoke smoke-3"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container max-w-4xl px-6 mx-auto">
+    <div class="flex flex-col gap-12 text-center">
+      <div class="flex flex-col gap-6">
+        <h2
+          class="relative inline-block text-3xl font-bold md:text-4xl text-slate-900 dark:text-white font-display"
+        >
+          Contacto
+          <span
+            class="absolute bottom-0 w-24 h-1 transform -translate-x-1/2 rounded-full left-1/2 bg-gradient-to-r from-blue-500 to-purple-500"
+          ></span>
+        </h2>
+        <p
+          class="max-w-2xl mx-auto text-lg leading-relaxed text-slate-600 dark:text-slate-400"
+        >
+          ¿Tienes un proyecto en mente o simplemente quieres saludar? ¡Me
+          encantaría saber de ti!
+        </p>
+      </div>
+
+      <div class="p-8 glass-effect rounded-xl md:p-12">
+        <form
+          id="contact-form"
+          action="https://formspree.io/f/meoyrrqn"
+          method="POST"
+          class="space-y-6"
+          novalidate
+        >
+          <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+            <div>
+              <label
+                for="name"
+                class="block mb-2 text-sm font-medium text-slate-700 dark:text-slate-300"
+                >Nombre</label
+              >
+              <input
+                type="text"
+                id="name"
+                name="name"
+                required
+                class="block w-full px-4 py-3 transition-colors border rounded-lg shadow-sm bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm border-slate-300/50 dark:border-slate-600/50 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              />
+              <span id="name-error" class="hidden mt-1 text-sm text-red-500"
+              ></span>
+            </div>
+            <div>
+              <label
+                for="email"
+                class="block mb-2 text-sm font-medium text-slate-700 dark:text-slate-300"
+                >Email</label
+              >
+              <input
+                type="email"
+                id="email"
+                name="email"
+                required
+                class="block w-full px-4 py-3 transition-colors border rounded-lg shadow-sm bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm border-slate-300/50 dark:border-slate-600/50 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              />
+              <span id="email-error" class="hidden mt-1 text-sm text-red-500"
+              ></span>
+            </div>
+          </div>
+          <div>
+            <label
+              for="subject"
+              class="block mb-2 text-sm font-medium text-slate-700 dark:text-slate-300"
+              >Asunto</label
+            >
+            <input
+              type="text"
+              id="subject"
+              name="subject"
+              required
+              class="block w-full px-4 py-3 transition-colors border rounded-lg shadow-sm bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm border-slate-300/50 dark:border-slate-600/50 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            />
+            <span id="subject-error" class="hidden mt-1 text-sm text-red-500"
+            ></span>
+          </div>
+          <div>
+            <label
+              for="message"
+              class="block mb-2 text-sm font-medium text-slate-700 dark:text-slate-300"
+              >Mensaje</label
+            >
+            <textarea
+              id="message"
+              name="message"
+              rows="5"
+              required
+              class="block w-full px-4 py-3 transition-colors border rounded-lg shadow-sm resize-none bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm border-slate-300/50 dark:border-slate-600/50 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            ></textarea>
+            <span id="message-error" class="hidden mt-1 text-sm text-red-500"
+            ></span>
+          </div>
+          <button type="submit" class="w-full btn-primary">
+            <span class="flex items-center justify-center">
+              <svg
+                class="w-5 h-5 mr-2"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+                ><path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg
+              >
+              Enviar Mensaje
+            </span>
+          </button>
+        </form>
+
+        <!-- Div para mostrar mensajes de éxito o error del servidor -->
+        <div
+          id="form-status"
+          class="hidden p-4 mt-4 font-medium text-center rounded-lg"
+        >
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Importamos Zod y nuestro esquema dinámicamente
+  import { z } from 'zod';
+  // CORRECCIÓN: Importamos contactSchema con llaves por ser una exportación con nombre
+  import { contactSchema } from '../lib/contactSchema.ts';
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('contact-form') as HTMLFormElement;
+    const statusDiv = document.getElementById('form-status');
+
+    if (!form || !statusDiv) {
+      console.error('Error: No se encontró el formulario o el div de estado.');
+      return;
+    }
+
+    form.addEventListener('submit', async event => {
+      event.preventDefault();
+
+      // 1. Limpiar errores anteriores
+      clearErrors();
+
+      // 2. Obtener datos del formulario
+      const formData = new FormData(form);
+      const rawData = {
+        name: formData.get('name'),
+        email: formData.get('email'),
+        subject: formData.get('subject'),
+        message: formData.get('message'),
+      };
+
+      // 3. Validar con Zod usando safeParse
+      const result = contactSchema.safeParse(rawData);
+
+      // 4. Si la validación falla, mostrar errores
+      if (!result.success) {
+        const fieldErrors = result.error.flatten().fieldErrors;
+        displayErrors(fieldErrors);
+        return; // Detener el envío
+      }
+
+      // 5. Si la validación es exitosa, enviar el formulario
+      setStatus('Enviando mensaje...', 'loading');
+
+      try {
+        const response = await fetch(form.action, {
+          method: 'POST',
+          body: formData,
+          headers: {
+            Accept: 'application/json',
+          },
+        });
+
+        if (response.ok) {
+          setStatus(
+            '¡Mensaje enviado con éxito! Te responderé pronto.',
+            'success',
+          );
+          form.reset();
+        } else {
+          const errorData = await response.json();
+          throw new Error(
+            errorData.error || 'Ocurrió un error al enviar el mensaje.',
+          );
+        }
+      } catch (error: unknown) {
+        let errorMessage = 'Ocurrió un error desconocido.';
+        if (error instanceof Error) {
+          errorMessage = error.message;
+        }
+        setStatus(errorMessage, 'error');
+      }
+    });
+
+    function displayErrors(errors: Record<string, string[]>) {
+      Object.keys(errors).forEach(field => {
+        const errorElement = document.getElementById(`${field}-error`);
+        if (errorElement && errors[field]) {
+          errorElement.textContent = errors[field][0];
+          errorElement.classList.remove('hidden');
+        }
+      });
+    }
+
+    function clearErrors() {
+      // CORRECCIÓN: Añadimos '!' porque TypeScript no puede asegurar que 'form' no es null aquí
+      const errorElements = form!.querySelectorAll('[id$="-error"]');
+      errorElements.forEach(el => {
+        el.textContent = '';
+        el.classList.add('hidden');
+      });
+    }
+
+    function setStatus(message: string, type: 'loading' | 'success' | 'error') {
+      // CORRECCIÓN: Añadimos '!' para decirle a TypeScript que confíe en que statusDiv no es null
+      statusDiv!.textContent = message;
+      statusDiv!.classList.remove(
+        'hidden',
+        'bg-red-100',
+        'text-red-700',
+        'dark:bg-red-900/30',
+        'dark:text-red-400',
+        'bg-green-100',
+        'text-green-700',
+        'dark:bg-green-900/30',
+        'dark:text-green-400',
+        'bg-blue-100',
+        'text-blue-700',
+        'dark:bg-blue-900/30',
+        'dark:text-blue-400',
+      );
+
+      if (type === 'loading') {
+        statusDiv!.classList.add(
+          'bg-blue-100',
+          'text-blue-700',
+          'dark:bg-blue-900/30',
+          'dark:text-blue-400',
+        );
+      } else if (type === 'success') {
+        statusDiv!.classList.add(
+          'bg-green-100',
+          'text-green-700',
+          'dark:bg-green-900/30',
+          'dark:text-green-400',
+        );
+      } else {
+        statusDiv!.classList.add(
+          'bg-red-100',
+          'text-red-700',
+          'dark:bg-red-900/30',
+          'dark:text-red-400',
+        );
+      }
+    }
+  });
+</script>
+
+<style>
+  /* Estilos para el efecto de humo (sin cambios) */
+  .smoke-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: -1;
+  }
+  .smoke {
+    position: absolute;
+    bottom: -10%;
+    left: 10%;
+    width: 80%;
+    height: 80%;
+    background: radial-gradient(
+      ellipse at center,
+      rgba(255, 255, 255, 0.3) 0%,
+      rgba(255, 255, 255, 0) 70%
+    );
+    opacity: 0.4;
+    border-radius: 50%;
+    filter: blur(40px);
+    animation: smoke-animation 15s infinite ease-in-out;
+  }
+  .smoke-1 {
+    animation-delay: 0s;
+    background: radial-gradient(
+      ellipse at center,
+      rgba(59, 130, 246, 0.3) 0%,
+      rgba(59, 130, 246, 0) 70%
+    );
+  }
+  .smoke-2 {
+    left: 30%;
+    animation-delay: 5s;
+    background: radial-gradient(
+      ellipse at center,
+      rgba(168, 85, 247, 0.3) 0%,
+      rgba(168, 85, 247, 0) 70%
+    );
+  }
+  .smoke-3 {
+    left: 60%;
+    animation-delay: 10s;
+    background: radial-gradient(
+      ellipse at center,
+      rgba(236, 72, 153, 0.3) 0%,
+      rgba(236, 72, 153, 0) 70%
+    );
+  }
+  @keyframes smoke-animation {
+    0% {
+      transform: translateY(0) scale(1);
+      opacity: 0.4;
+    }
+    50% {
+      transform: translateY(-50%) scale(1.2);
+      opacity: 0.2;
+    }
+    100% {
+      transform: translateY(-100%) scale(1.5);
+      opacity: 0;
+    }
+  }
+</style>

@@ -1,22 +1,207 @@
-<!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
-	</head>
-	<body>
-		<slot />
-	</body>
-</html>
+---
+import '../styles/global.css';
 
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
-</style>
+// Importa solo los pesos de fuente que vas a utilizar
+import '@fontsource/poppins/400.css';
+import '@fontsource/poppins/500.css';
+import '@fontsource/poppins/600.css';
+import '@fontsource/poppins/700.css';
+
+import '@fontsource/space-grotesk/400.css';
+import '@fontsource/space-grotesk/500.css';
+import '@fontsource/space-grotesk/700.css';
+
+import Header from '../components/Header.astro';
+import GlowEffect from '../components/GlowEffect.astro';
+import BackgroundDecorations from '../components/BackgroundDecorations.astro';
+
+import { ViewTransitions } from 'astro:transitions';
+---
+
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Umpi-Porfolio</title>
+    <ViewTransitions />
+    <style is:global>
+      /* Deshabilitar completamente el difuminado durante las View Transitions */
+      ::view-transition-old(root),
+      ::view-transition-new(root),
+      ::view-transition-old(*),
+      ::view-transition-new(*) {
+        animation: none !important;
+        mix-blend-mode: normal !important;
+        filter: none !important;
+        opacity: 1 !important;
+      }
+
+      /* Asegurar que el header no se difumine */
+      ::view-transition-old(header),
+      ::view-transition-new(header) {
+        animation: none !important;
+        filter: none !important;
+      }
+
+      /* Deshabilitar cualquier blur durante transiciones */
+      html::view-transition-old(root),
+      html::view-transition-new(root) {
+        filter: none !important;
+        backdrop-filter: none !important;
+      }
+    </style>
+    <script is:inline>
+      // --- SISTEMA DE TEMA CENTRALIZADO Y ROBUSTO ---
+
+      // 1. Función para aplicar el tema (sin cambios)
+      function setTheme(theme) {
+        const root = document.documentElement;
+        if (theme === 'dark') {
+          root.classList.add('dark');
+        } else {
+          root.classList.remove('dark');
+        }
+        if (typeof localStorage !== 'undefined') {
+          localStorage.setItem('theme', theme);
+        }
+      }
+
+      // 2. Función para obtener el tema preferido (sin cambios)
+      function getThemePreference() {
+        if (
+          typeof localStorage !== 'undefined' &&
+          localStorage.getItem('theme')
+        ) {
+          return localStorage.getItem('theme');
+        }
+        return window.matchMedia('(prefers-color-scheme: dark)').matches
+          ? 'dark'
+          : 'light';
+      }
+
+      // 3. Función para configurar TODOS los botones de tema de la página
+      function setupAllThemeToggles() {
+        // Busca cualquier botón que empiece con 'theme-toggle-'
+        const toggleButtons = document.querySelectorAll(
+          '[id^="theme-toggle-"]',
+        );
+
+        toggleButtons.forEach(button => {
+          // Removemos listeners anteriores para evitar duplicados
+          const newButton = button.cloneNode(true);
+          button.parentNode?.replaceChild(newButton, button);
+
+          newButton.addEventListener('click', () => {
+            const currentTheme = document.documentElement.classList.contains(
+              'dark',
+            )
+              ? 'dark'
+              : 'light';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            setTheme(newTheme);
+          });
+        });
+      }
+
+      // 4. Función de inicialización principal
+      function initTheme() {
+        // Aplica el tema guardado al cargar
+        setTheme(getThemePreference());
+        // Configura los botones
+        setupAllThemeToggles();
+      }
+
+      // 5. Ejecutamos la inicialización en los momentos clave
+      // - Al cargar la página por primera vez
+      document.addEventListener('DOMContentLoaded', initTheme);
+      // - Después de cada transición de página de Astro
+      document.addEventListener('astro:page-load', initTheme);
+
+      // 6. Escuchamos cambios en el sistema operativo (sin cambios)
+      window
+        .matchMedia('(prefers-color-scheme: dark)')
+        .addEventListener('change', e => {
+          if (!localStorage.getItem('theme')) {
+            setTheme(e.matches ? 'dark' : 'light');
+          }
+        });
+
+      // Scroll Spy definitivo y robusto (sin cambios)
+      function initScrollSpy() {
+        const sections = document.querySelectorAll('section[id]');
+        const navItems = document.querySelectorAll('.nav-item');
+
+        if (!sections.length || !navItems.length) {
+          console.warn(
+            'Scroll Spy: No se encontraron secciones o items de navegación. Abortando.',
+          );
+          return;
+        }
+
+        const sectionPositions = Array.from(sections).map(section => {
+          const sectionTop =
+            section.getBoundingClientRect().top + window.pageYOffset;
+          return {
+            id: section.getAttribute('id'),
+            top: sectionTop,
+          };
+        });
+
+        sectionPositions.sort((a, b) => a.top - b.top);
+
+        function updateActiveLink() {
+          const scrollY = window.pageYOffset;
+          let currentSectionId = 'home';
+
+          if (scrollY > 100) {
+            for (let i = sectionPositions.length - 1; i >= 0; i--) {
+              if (scrollY >= sectionPositions[i].top - 150) {
+                currentSectionId = sectionPositions[i].id;
+                break;
+              }
+            }
+          }
+
+          navItems.forEach(item => {
+            item.classList.remove('is-active');
+            const link = item.querySelector('.nav-link');
+            if (link && link.getAttribute('href') === `#${currentSectionId}`) {
+              item.classList.add('is-active');
+            }
+          });
+        }
+
+        updateActiveLink();
+
+        let isScrolling = false;
+        window.addEventListener('scroll', () => {
+          if (!isScrolling) {
+            window.requestAnimationFrame(() => {
+              updateActiveLink();
+              isScrolling = false;
+            });
+            isScrolling = true;
+          }
+        });
+      }
+
+      // Ejecutamos el scroll spy con un pequeño retraso
+      document.addEventListener('astro:page-load', () => {
+        setTimeout(initScrollSpy, 200);
+      });
+    </script>
+  </head>
+
+  <body
+    class="flex flex-col min-h-screen font-sans antialiased transition-colors duration-200"
+  >
+    <BackgroundDecorations />
+    <GlowEffect />
+    <Header />
+    <main class="relative z-0 flex-1">
+      <slot />
+    </main>
+  </body>
+</html>

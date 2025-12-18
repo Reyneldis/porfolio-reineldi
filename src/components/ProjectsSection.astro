@@ -1,0 +1,35 @@
+---
+// src/components/ProjectsSection.astro
+import CardProject from './CardProject.astro';
+import { PROJECTS } from '../data/projects';
+import RevealOnScroll from './RevealOnScroll.astro'; // <-- IMPORTA EL COMPONENTE
+---
+
+<section id="projects" class="py-20 scroll-mt-24">
+  <div class="container px-6 mx-auto max-w-7xl">
+    <div class="mb-16 text-center">
+      <h2
+      class="relative inline-block text-3xl font-bold md:text-4xl text-slate-900 dark:text-white font-display"
+      >
+        Proyectos
+         <span
+            class="absolute bottom-0 w-24 h-1 transform -translate-x-1/2 rounded-full left-1/2 bg-gradient-to-r from-blue-500 to-purple-500"
+          ></span>
+      </h2>
+      <p class="max-w-2xl mx-auto text-lg text-slate-600 dark:text-slate-400">
+        Una selección de mis trabajos más destacados. Cada proyecto representa
+        un desafío único y una solución innovadora.
+      </p>
+    </div>
+
+    <!-- Grid responsivo: 1 columna en móvil, 2 en tablet, 3 en desktop -->
+    <div class="grid max-w-4xl gap-8 mx-auto md:grid-cols-1 lg:grid-cols-2">
+      {PROJECTS.map((project, index) => (
+        <!-- CAMBIO CLAVE: Envuelve cada tarjeta y añade un retraso escalonado -->
+        <RevealOnScroll style={`transition-delay: ${index * 0.15}s`}>
+          <CardProject project={project} />
+        </RevealOnScroll>
+      ))}
+    </div>
+  </div>
+</section>

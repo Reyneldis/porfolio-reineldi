@@ -1,0 +1,81 @@
+---
+// src/components/Footer.astro
+import SocialLink from './SocialLink.astro';
+---
+
+<footer
+  class="relative py-10 overflow-hidden transition-colors duration-300 border-t bg-gradient-to-br from-slate-100 via-white to-slate-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 border-slate-300 dark:border-slate-700/50"
+>
+  <!-- Fondo decorativo con efectos de luz más coloridos y adaptables -->
+  <div class="absolute inset-0 opacity-60 dark:opacity-40">
+    <div
+      class="absolute top-0 transition-colors duration-500 rounded-full w-96 h-96 left-1/4 bg-gradient-to-br from-cyan-300/30 to-blue-400/30 blur-3xl dark:from-cyan-400/20 dark:to-blue-500/20"
+    >
+    </div>
+    <div
+      class="absolute bottom-0 transition-colors duration-500 rounded-full w-96 h-96 right-1/4 bg-gradient-to-br from-pink-300/30 to-fuchsia-400/30 blur-3xl dark:from-pink-400/20 dark:to-fuchsia-500/20"
+    >
+    </div>
+    <div
+      class="absolute transition-colors duration-500 -translate-x-1/2 -translate-y-1/2 rounded-full top-1/2 left-1/2 w-96 h-96 bg-gradient-to-br from-yellow-300/20 to-orange-400/20 blur-3xl dark:from-yellow-400/15 dark:to-orange-500/15"
+    >
+    </div>
+  </div>
+
+  <!-- Contenedor de ancho completo -->
+  <div
+    class="relative z-10 grid grid-cols-1 gap-8 px-6 mx-auto text-center md:grid-cols-3 md:px-12 lg:px-16 md:text-left"
+  >
+    <!-- Columna Izquierda: Tu Nombre y Marca -->
+    <div class="space-y-2">
+      <h3
+        class="text-2xl font-bold text-slate-900 dark:text-white font-display"
+      >
+        Reineldi Umpierre
+      </h3>
+      <p
+        class="text-sm font-medium tracking-widest text-transparent uppercase bg-gradient-to-r from-cyan-500 via-blue-500 to-fuchsia-500 bg-clip-text"
+      >
+        Desarrollador Web & Creativo
+      </p>
+    </div>
+
+    <!-- Columna Central: Llamado a la Acción -->
+    <div class="flex flex-col justify-center">
+      <p class="text-lg text-slate-700 dark:text-slate-300">
+        ¿Tienes una idea en mente?
+      </p>
+      <a
+        href="#contact"
+        class="inline-block mt-2 text-lg font-bold text-transparent transition-transform duration-300 bg-gradient-to-r from-blue-600 to-fuchsia-600 bg-clip-text hover:scale-110 font-display dark:from-blue-400 dark:to-fuchsia-400"
+      >
+        Hablemos →
+      </a>
+    </div>
+
+    <!-- Columna Derecha: Redes y Copyright -->
+    <div class="flex flex-col justify-center space-y-4">
+      <div class="flex items-center justify-center gap-4 md:justify-end">
+        <SocialLink href="https://github.com/tu-usuario" iconName="github" />
+        <SocialLink
+          href="https://instagram.com/tu-usuario"
+          iconName="instagram"
+        />
+        <SocialLink href="https://twitter.com/tu-usuario" iconName="x" />
+      </div>
+      <p class="text-xs text-slate-500 md:text-right dark:text-slate-400">
+        &copy; {new Date().getFullYear()} Hecho con ❤️ y Astro.
+      </p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  /* Efecto hover sutil para los enlaces sociales dentro del footer */
+  footer a {
+    @apply transition-all duration-300;
+  }
+  footer a:hover {
+    @apply scale-110;
+  }
+</style>

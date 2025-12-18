@@ -1,11 +1,172 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import SocialLink from '../components/SocialLink.astro';
+import ExperienceSection from '../components/ExperienceSection.astro';
+import ProjectsSection from '../components/ProjectsSection.astro';
+import AboutSection from '../components/AboutSection.astro';
+import ContactSection from '../components/ContactSection.astro';
+import Footer from '../components/Footer.astro';
+import RevealOnScroll from '../components/RevealOnScroll.astro';
+// Eliminamos la importación de Image de astro:assets porque no la usaremos
 ---
 
-<Layout>
-	<Welcome />
+<Layout
+  title="Reineldi Umpierre - Desarrollador Web"
+  description="Contrata a umpi para crear tu aplicación web. Desarrollador Web , especialista en desarrollar tu gusto . "
+>
+  <section
+    id="home"
+    class="relative flex items-center flex-grow pt-20 overflow-hidden md:min-h-screen"
+  >
+    <div class="container relative z-10 px-6 mx-auto md:px-12 lg:px-40">
+      <div class="max-w-4xl">
+        <div
+          class="flex flex-col items-start gap-4 mb-6 sm:flex-row sm:items-center animate-fade-in"
+        >
+          <!-- Usamos una etiqueta img normal en lugar del componente Image -->
+          <img
+            src="/images/avatar.webp"
+            alt="Avatar de Reineldi Umpierre"
+            class="object-cover w-24 h-24 border-4 rounded-full shadow-xl border-slate-200 dark:border-slate-700 float-animation"
+            width={96}
+            height={96}
+          />
+          <div class="flex flex-col gap-2">
+            <a
+              href="#contact"
+              class="inline-flex items-center px-6 py-3 text-sm font-semibold text-white transition-all duration-300 transform rounded-full shadow-lg bg-gradient-to-r from-green-400 to-green-600 hover:from-green-500 hover:to-green-700 hover:scale-105 hover:shadow-green-500/50"
+            >
+              <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                <path
+                  fill-rule="evenodd"
+                  d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
+                  clip-rule="evenodd"></path>
+              </svg>
+              Disponible para trabajar
+            </a>
+            <p class="text-sm text-slate-500 dark:text-slate-400">
+              Respuesta en menos de 24h
+            </p>
+          </div>
+        </div>
+
+        <!-- El resto del código sin cambios -->
+        <h1
+          class="mb-4 font-extrabold text-slate-900 dark:text-white font-display animate-slide-up"
+          style="animation-delay: 0.1s; font-size: clamp(2.5rem, 5vw, 4rem);"
+        >
+          <span
+            class="block text-blue-600 dark:text-orange-100"
+            style="font-size: clamp(1.5rem, 4vw, 2.5rem);"
+            >👋 Soy Reineldi.</span
+          >
+        </h1>
+
+        <p
+          class="max-w-xl mb-8 font-sans leading-relaxed text-slate-600 dark:text-slate-400 animate-slide-up"
+          style="animation-delay: 0.2s; font-size: clamp(1rem, 2vw, 1.25rem);"
+        >
+          Ingeniero Informático y <span
+            class="font-bold text-orange-400 dark:text-orange-300"
+            >Desarrollador Web</span
+          >, enfocado en construir experiencias digitales rápidas, accesibles y
+          con un diseño impecable.
+        </p>
+
+        <div
+          class="flex items-center gap-4 mb-12 animate-slide-up md:mb-0"
+          style="animation-delay: 0.3s;"
+        >
+          <SocialLink href="https://github.com/tu-usuario" iconName="github" />
+          <SocialLink
+            href="https://instagram.com/tu-usuario"
+            iconName="instagram"
+          />
+          <SocialLink href="https://twitter.com/tu-usuario" iconName="x" />
+        </div>
+      </div>
+    </div>
+
+    <!-- El resto del código sin cambios -->
+    <div
+      class="absolute bg-purple-300 rounded-full top-20 right-10 w-72 h-72 mix-blend-multiply filter blur-xl opacity-20 animate-blob"
+    >
+    </div>
+    <div
+      class="absolute bg-yellow-300 rounded-full top-40 left-20 w-72 h-72 mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-2000"
+    >
+    </div>
+    <div
+      class="absolute bg-pink-300 rounded-full -bottom-8 right-20 w-72 h-72 mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-4000"
+    >
+    </div>
+  </section>
+
+  <!-- El resto del código sin cambios -->
+  <RevealOnScroll>
+    <ExperienceSection />
+  </RevealOnScroll>
+  <RevealOnScroll>
+    <ProjectsSection />
+  </RevealOnScroll>
+  <RevealOnScroll>
+    <AboutSection />
+  </RevealOnScroll>
+  <RevealOnScroll>
+    <ContactSection />
+  </RevealOnScroll>
+  <RevealOnScroll>
+    <Footer />
+  </RevealOnScroll>
+
+  <style>
+    @keyframes fade-in {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+    @keyframes slide-up {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    @keyframes blob {
+      0% {
+        transform: translate(0px, 0px) scale(1);
+      }
+      33% {
+        transform: translate(30px, -50px) scale(1.1);
+      }
+      66% {
+        transform: translate(-20px, 20px) scale(0.9);
+      }
+      100% {
+        transform: translate(0px, 0px) scale(1);
+      }
+    }
+    .animate-fade-in {
+      animation: fade-in 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+    .animate-slide-up {
+      animation: slide-up 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+      opacity: 0;
+    }
+    .animate-blob {
+      animation: blob 7s infinite;
+    }
+    .animation-delay-2000 {
+      animation-delay: 2s;
+    }
+    .animation-delay-4000 {
+      animation-delay: 4s;
+    }
+  </style>
 </Layout>

@@ -1,0 +1,15 @@
+// tailwind.config.mjs
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
+  darkMode: 'class',
+  theme: {
+    extend: {
+      fontFamily: {
+        sans: ['Poppins', 'sans-serif'],
+        display: ['Space Grotesk', 'sans-serif'], // <-- CORREGIDO: Coma añadida
+      },
+    },
+  },
+  plugins: [],
+};

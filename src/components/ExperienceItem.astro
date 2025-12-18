@@ -1,0 +1,82 @@
+---
+// src/components/ExperienceItem.astro
+export interface Props {
+  date: string;
+  title: string;
+  company: string;
+  description: string;
+  index?: number;
+}
+
+const { date, title, company, description, index = 0 } = Astro.props;
+---
+
+<!-- El artículo principal ahora es un grupo para los efectos hover -->
+<article class="relative pl-8 group" style="animation-delay: {index * 0.15}s">
+  <!-- Línea de tiempo con degradado y animación sutil -->
+  <div
+    class="absolute left-0 top-8 bottom-0 w-0.5 bg-gradient-to-b from-blue-500/50 via-purple-500/50 to-transparent scale-y-0 group-hover:scale-y-100 transition-transform origin-top duration-700 ease-out"
+  >
+  </div>
+
+  <!-- Punto en la línea de tiempo (mejorado) -->
+  <div
+    class="absolute top-5 -left-[11px] flex items-center justify-center w-6 h-6 transition-all duration-500 ease-out bg-white border-2 border-blue-500 rounded-full shadow-lg dark:bg-slate-900 dark:border-fuchsia-400 group-hover:scale-150"
+  >
+    <span
+      class="w-2 h-2 bg-blue-500 rounded-full dark:bg-fuchsia-400 group-hover:animate-ping"
+    ></span>
+  </div>
+
+  <!-- Contenido de la experiencia (Tarjeta de cristal) -->
+  <div
+    class="relative p-6 transition-all duration-500 ease-out bg-gradient-to-br from-white/60 to-white/10 border shadow-xl dark:from-slate-800/60 dark:to-slate-900/10 rounded-2xl border-white/20 dark:border-slate-700/50 backdrop-blur-xl group-hover:shadow-2xl group-hover:shadow-blue-500/10 dark:group-hover:shadow-fuchsia-500/10 group-hover:-translate-y-2 group-hover:scale-[1.02] group-hover:-rotate-1"
+  >
+    <!-- Fondo decorativo que se revela en hover -->
+    <div
+      class="absolute inset-0 transition-opacity duration-500 opacity-0 bg-gradient-to-br from-blue-500/5 to-purple-500/5 rounded-2xl group-hover:opacity-100"
+    >
+    </div>
+
+    <!-- Contenido de la tarjeta -->
+    <div class="relative z-10">
+      <p
+        class="mb-1 text-xs font-bold tracking-widest text-blue-600 uppercase dark:text-fuchsia-400"
+      >
+        {date}
+      </p>
+      <h3
+        class="mb-1 text-2xl font-extrabold text-slate-900 dark:text-slate-100 font-display"
+      >
+        {title}
+      </h3>
+      <p class="mb-4 text-lg font-semibold text-slate-700 dark:text-slate-300">
+        {company}
+      </p>
+      <p class="leading-relaxed text-slate-600 dark:text-slate-400">
+        {description}
+      </p>
+    </div>
+  </div>
+</article>
+
+<style>
+  /* Animación de entrada desde la izquierda con opacidad */
+  @keyframes slideInFromLeft {
+    from {
+      opacity: 0;
+      transform: translateX(-50px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  /* Aplicar la animación de forma escalonada */
+  article {
+    animation: slideInFromLeft 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)
+      forwards;
+    opacity: 0;
+  }
+</style>

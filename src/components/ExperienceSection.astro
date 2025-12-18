@@ -1,0 +1,70 @@
+---
+// src/components/ExperienceSection.astro
+import ExperienceItem from './ExperienceItem.astro';
+
+const EXPERIENCE = [
+  {
+    date: 'Actualmente...',
+    title: 'Ingeniero Informático',
+    company: 'OICC',
+    description:
+      'Liderazgo en el desarrollo de software y gestión de proyectos de alto impacto. Especializado en la creación de aplicaciones web robustas y sistemas operativos a medida, optimizando el rendimiento y la experiencia de usuario.',
+  },
+  {
+    date: 'Septiembre 2020 - 2022',
+    title: 'Responsable de Ciberseguridad',
+    company: 'OICC',
+    description:
+      'Diseño e implementación de políticas de seguridad corporativa. Gestión de accesos, monitorización de amenazas y respuesta a incidentes para proteger la infraestructura crítica y los datos de la empresa.',
+  },
+];
+---
+
+<section id="experience" class="relative py-20 overflow-hidden scroll-mt-24">
+  <!-- Fondo sutil para la sección -->
+  <div
+    class="absolute inset-0 -z-10 bg-gradient-to-br from-blue-50/30 via-transparent to-purple-50/30 dark:from-blue-900/10 dark:via-transparent dark:to-purple-900/10"
+  >
+  </div>
+
+  <div class="container relative z-10 px-6 mx-auto">
+    <div class="flex flex-col gap-12">
+      <!-- Título de la sección mejorado -->
+      <div class="flex flex-col gap-6 text-center">
+        <h2
+          class="relative inline-block text-3xl font-bold md:text-4xl text-slate-900 dark:text-white font-display"
+        >
+          Mi Trayectoria
+          <span
+            class="absolute bottom-0 w-24 h-1 transform -translate-x-1/2 rounded-full left-1/2 bg-gradient-to-r from-blue-500 to-purple-500"
+          ></span>
+        </h2>
+        <p
+          class="max-w-2xl mx-auto text-lg leading-relaxed text-slate-600 dark:text-slate-400"
+        >
+          Un recorrido por los roles y proyectos que han moldeado mi experiencia
+          y habilidades.
+        </p>
+      </div>
+
+      <!-- Contenedor de la línea de tiempo -->
+      <div class="relative max-w-4xl mx-auto">
+        <!-- La línea principal ahora es más sutil -->
+        <div
+          class="absolute top-0 bottom-0 left-0 w-px bg-gradient-to-b from-slate-300 via-slate-300 to-transparent dark:from-slate-600 dark:via-slate-600"
+        >
+        </div>
+
+        <ol class="relative space-y-12">
+          {
+            EXPERIENCE.map((experience, index) => (
+              <li>
+                <ExperienceItem {...experience} index={index} />
+              </li>
+            ))
+          }
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>

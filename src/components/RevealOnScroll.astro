@@ -1,0 +1,67 @@
+---
+// src/components/RevealOnScroll.astro
+---
+
+<div class="reveal-on-scroll-container">
+  <slot />
+</div>
+
+<style>
+  /* ESTADO INICIAL: El "espejo empañado" */
+  .reveal-on-scroll-container {
+    opacity: 0.5; /* Semi-transparente */
+    filter: blur(8px) brightness(0.7); /* Desenfocado y un poco oscuro */
+    transform: scale(
+      0.95
+    ); /* Un ligero zoom-out para dar más impacto al aparecer */
+    transition:
+      opacity 0.8s ease-out,
+      filter 0.8s ease-out,
+      transform 0.8s ease-out; /* Suavizamos la transición de todas las propiedades */
+  }
+
+  /* ESTADO FINAL: "Completamente iluminado" */
+  .reveal-on-scroll-container.is-revealed {
+    opacity: 1; /* Totalmente visible */
+    filter: blur(0) brightness(1); /* Nítido y con brillo normal */
+    transform: scale(1); /* Vuelve a su tamaño original */
+  }
+</style>
+
+<script>
+  function initRevealOnScroll() {
+    const containers = document.querySelectorAll('.reveal-on-scroll-container');
+
+    // Si no hay contenedores, no hacemos nada
+    if (!containers.length) return;
+
+    const observer = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          // Cuando el contenedor sea visible (al menos un 15%)
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-revealed');
+            // Dejamos de observar el elemento para mejorar el rendimiento
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        root: null, // Observa dentro del viewport
+        rootMargin: '0px',
+        threshold: 0.15, // El efecto se activa cuando el 15% del elemento es visible
+      },
+    );
+
+    containers.forEach(container => {
+      observer.observe(container);
+    });
+  }
+
+  // --- SOLUCIÓN CLAVE: Ejecutar después de ViewTransitions ---
+  // Usamos el mismo patrón que con el scroll spy.
+  document.addEventListener('astro:page-load', () => {
+    // Pequeño retraso para asegurar que el DOM esté completamente listo
+    setTimeout(initRevealOnScroll, 200);
+  });
+</script>

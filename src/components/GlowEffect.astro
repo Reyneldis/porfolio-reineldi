@@ -1,0 +1,71 @@
+---
+// src/components/GlowEffect.astro
+---
+
+<!-- Este div es el efecto de luz -->
+<div class="pointer-glow"></div>
+
+<style>
+  .pointer-glow {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 600px;
+    height: 600px;
+    /* CAMBIA TEMPORALMENTE EL FONDO PARA PROBAR */
+    background: radial-gradient(
+      ellipse at center,
+      rgba(139, 92, 246, 0.15) 0%,
+      rgba(139, 92, 246, 0.08) 40%,
+      transparent 70%
+    );
+    border-radius: 50%;
+    pointer-events: none; /* IMPORTANTE: No bloquea clics */
+    opacity: 1; /* Ponlo siempre visible para la prueba */
+    transition: opacity 0.5s ease;
+    z-index: 10; /* Debajo del navbar */
+    will-change: transform;
+  }
+</style>
+
+<script>
+  function initGlowEffect() {
+    const glow = document.querySelector('.pointer-glow') as HTMLElement | null;
+    const body = document.body;
+
+    if (!glow) return;
+
+    // Desactivamos el efecto en dispositivos táctiles
+    if (window.matchMedia('(pointer: coarse)').matches) {
+      return;
+    }
+
+    const moveGlow = (e: MouseEvent) => {
+      const x = e.clientX - 300; // 300 es la mitad de 600px
+      const y = e.clientY - 300; // 300 es la mitad de 600px
+      glow.style.transform = `translate(${x}px, ${y}px)`;
+    };
+
+    const showGlow = () => {
+      glow.style.opacity = '1';
+    };
+
+    const hideGlow = () => {
+      glow.style.opacity = '0';
+    };
+
+    body.addEventListener('mouseenter', showGlow);
+    body.addEventListener('mouseleave', hideGlow);
+    body.addEventListener('mousemove', moveGlow);
+  }
+
+  // Ejecutar inmediatamente
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initGlowEffect);
+  } else {
+    initGlowEffect();
+  }
+
+  // Ejecutar después de View Transitions
+  document.addEventListener('astro:page-load', initGlowEffect);
+</script>

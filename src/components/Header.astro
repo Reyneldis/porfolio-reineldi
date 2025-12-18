@@ -1,0 +1,260 @@
+---
+import ThemeToggle from '../components/ThemeToggle.astro';
+---
+
+<header
+  class="fixed z-[100] w-full max-w-lg px-4 transform -translate-x-1/2 pointer-events-none top-4 left-1/2"
+>
+  <div
+    class="items-center justify-center hidden px-5 py-2 border rounded-full shadow-lg pointer-events-auto md:flex bg-white/80 dark:bg-slate-800/80 backdrop-blur-md border-slate-300/50 dark:border-slate-600/50"
+  >
+    <nav class="pointer-events-auto">
+      <ul class="flex items-center space-x-4 text-sm font-medium">
+        <li class="pointer-events-auto nav-item">
+          <a
+            href="#home"
+            data-section="home"
+            class="transition-colors pointer-events-auto nav-link whitespace-nowrap hover:text-blue-600 dark:hover:text-fuchsia-400"
+            >Inicio</a
+          >
+        </li>
+        <li class="pointer-events-auto nav-item">
+          <a
+            href="#experience"
+            data-section="experience"
+            class="transition-colors pointer-events-auto nav-link whitespace-nowrap hover:text-blue-600 dark:hover:text-fuchsia-400"
+            >Experiencia</a
+          >
+        </li>
+        <li class="pointer-events-auto nav-item">
+          <a
+            href="#projects"
+            data-section="projects"
+            class="transition-colors pointer-events-auto nav-link whitespace-nowrap hover:text-blue-600 dark:hover:text-fuchsia-400"
+            >Proyectos</a
+          >
+        </li>
+        <li class="pointer-events-auto nav-item">
+          <a
+            href="#about"
+            data-section="about"
+            class="transition-colors pointer-events-auto nav-link whitespace-nowrap hover:text-blue-600 dark:hover:text-fuchsia-400"
+            >Sobre mi</a
+          >
+        </li>
+        <li class="pointer-events-auto nav-item">
+          <a
+            href="#contact"
+            data-section="contact"
+            class="transition-colors pointer-events-auto nav-link whitespace-nowrap hover:text-blue-600 dark:hover:text-fuchsia-400"
+            >Contacto</a
+          >
+        </li>
+
+        <li class="w-px h-5 pointer-events-auto bg-slate-300 dark:bg-slate-600">
+        </li>
+        <li class="pointer-events-auto">
+          <ThemeToggle uniqueId="theme-toggle-desktop" />
+        </li>
+      </ul>
+    </nav>
+  </div>
+
+  <button
+    id="nav-toggle"
+    class="flex items-center justify-center w-10 h-10 border rounded-full shadow-lg pointer-events-auto md:hidden bg-white/80 dark:bg-slate-800/80 backdrop-blur-md border-slate-300/50 dark:border-slate-600/50"
+    aria-controls="nav-menu"
+    aria-expanded="false"
+  >
+    <svg
+      class="w-6 h-6 text-slate-600 dark:text-slate-300"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M4 6h16M4 12h16M4 18h16"></path>
+    </svg>
+  </button>
+</header>
+
+<div id="nav-menu" class="nav-overlay">
+  <div class="absolute top-0 right-0 p-5">
+    <button
+      id="nav-close"
+      class="flex items-center justify-center w-10 h-10 rounded-full bg-white/10 backdrop-blur-md"
+      aria-controls="nav-menu"
+      aria-expanded="false"
+    >
+      <svg
+        class="w-6 h-6 text-white"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M6 18L18 6M6 6l12 12"></path>
+      </svg>
+    </button>
+  </div>
+
+  <nav>
+    <ul class="flex flex-col items-center gap-8 text-white font-display">
+      <li class="nav-item">
+        <a
+          href="#home"
+          data-section="home"
+          class="text-4xl font-bold transition-all duration-300 nav-link hover:text-blue-400"
+          >Inicio</a
+        >
+      </li>
+      <li class="nav-item">
+        <a
+          href="#experience"
+          data-section="experience"
+          class="text-4xl font-bold transition-all duration-300 nav-link hover:text-blue-400"
+          >Experiencia</a
+        >
+      </li>
+      <li class="nav-item">
+        <a
+          href="#projects"
+          data-section="projects"
+          class="text-4xl font-bold transition-all duration-300 nav-link hover:text-blue-400"
+          >Proyectos</a
+        >
+      </li>
+      <li class="nav-item">
+        <a
+          href="#about"
+          data-section="about"
+          class="text-4xl font-bold transition-all duration-300 nav-link hover:text-blue-400"
+          >Sobre mi</a
+        >
+      </li>
+      <li class="nav-item">
+        <a
+          href="#contact"
+          data-section="contact"
+          class="text-4xl font-bold transition-all duration-300 nav-link hover:text-blue-400"
+          >Contacto</a
+        >
+      </li>
+
+      <li class="pt-4 border-t border-white/20">
+        <ThemeToggle uniqueId="theme-toggle-mobile" />
+      </li>
+    </ul>
+  </nav>
+</div>
+
+<style>
+  header {
+    pointer-events: none !important;
+  }
+  header > * {
+    pointer-events: auto !important;
+  }
+  .nav-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(15, 23, 42, 0.95);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity 0.3s ease,
+      visibility 0.3s ease;
+  }
+  .nav-overlay.is-open {
+    opacity: 1;
+    visibility: visible;
+  }
+  body.menu-open {
+    overflow: hidden;
+  }
+
+  .nav-item.is-active .nav-link {
+    color: #2563eb !important; /* blue-600 */
+    font-weight: 700 !important; /* font-bold */
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .dark .nav-item.is-active .nav-link {
+      color: #e879f9 !important; /* fuchsia-400 */
+    }
+  }
+
+  #theme-toggle-mobile {
+    background-color: rgb(51 65 85 / 0.8) !important; /* slate-700/80 */
+    color: rgb(203 213 225) !important; /* slate-300 */
+    border-color: rgb(71 85 105) !important; /* slate-600 */
+  }
+  #theme-toggle-mobile:hover {
+    background-color: rgb(71 85 105) !important; /* slate-600 */
+  }
+  #theme-toggle-mobile svg {
+    color: rgb(203 213 225) !important; /* slate-300 */
+  }
+</style>
+
+<script>
+  function initNavMenu() {
+    const navToggle = document.getElementById('nav-toggle');
+    const navClose = document.getElementById('nav-close');
+    const navMenu = document.getElementById('nav-menu');
+    const body = document.body;
+
+    if (!navToggle || !navClose || !navMenu) return;
+
+    const openMenu = () => {
+      navMenu.classList.add('is-open');
+      body.classList.add('menu-open');
+    };
+
+    const closeMenu = () => {
+      navMenu.classList.remove('is-open');
+      body.classList.remove('menu-open');
+    };
+
+    const newToggle = navToggle.cloneNode(true);
+    navToggle.parentNode?.replaceChild(newToggle, navToggle);
+    newToggle.addEventListener('click', openMenu);
+
+    const newClose = navClose.cloneNode(true);
+    navClose.parentNode?.replaceChild(newClose, navClose);
+    newClose.addEventListener('click', closeMenu);
+
+    const navLinks = navMenu.querySelectorAll('.nav-link');
+    navLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        closeMenu();
+      });
+    });
+
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape') {
+        closeMenu();
+      }
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initNavMenu);
+  } else {
+    initNavMenu();
+  }
+
+  document.addEventListener('astro:page-load', initNavMenu);
+</script>
