@@ -18,8 +18,8 @@ export const PROJECTS: Project[] = [
     slug: 'delivery-express', // <-- SLUG AMIGABLE PARA URL
     description:
       'Tienda Delivery Express, tu sitio favorito de compras para el hogar',
-    link: 'https://svgl.vercel.app/',
-    github: 'https://github.com/pheralb/svgl',
+    link: 'https://delivery-express-rust.vercel.app/',
+    github: 'https://github.com/Reyneldis/dd',
     image: 'ecomerce.webp', // <-- SOLO EL NOMBRE DEL ARCHIVO
     tech: ['Next.js', 'Tailwind CSS', 'PostgreSQL', 'React'],
     highlights: [
@@ -33,7 +33,7 @@ export const PROJECTS: Project[] = [
     slug: 'umpi-portfolio', // <-- SLUG AMIGABLE PARA URL
     description: 'Plataforma estable de mi portafolio personal.',
     link: 'https://adventjs.dev',
-    github: 'https://github.com/midudev/adventjs',
+    github: 'https://github.com/Reyneldis/porfolio-reineldi',
     image: 'porfolio.webp', // <-- SOLO EL NOMBRE DEL ARCHIVO
     tech: ['Astro', 'TypeScript', 'Tailwind CSS'],
     highlights: ['Sitio web con un espléndido diseño.', 'Más de 1M de visitas'],
