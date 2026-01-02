@@ -3,7 +3,7 @@
 ---
 
 <section id="contact" class="relative py-32 overflow-hidden scroll-mt-24">
-  <!-- Fondo con efecto de humo -->
+  <!-- Fondo con efecto de humo OPTIMIZADO (Sin Blur) -->
   <div class="absolute inset-0 -z-10">
     <div
       class="absolute inset-0 bg-gradient-to-br from-blue-50/30 via-transparent to-purple-50/30 dark:from-blue-900/10 dark:via-transparent dark:to-purple-900/10"
@@ -57,7 +57,9 @@
                 id="name"
                 name="name"
                 required
-                class="block w-full px-4 py-3 transition-colors border rounded-lg shadow-sm bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm border-slate-300/50 dark:border-slate-600/50 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                minlength="2"
+                maxlength="50"
+                class="block w-full px-4 py-3 transition-colors border rounded-lg shadow-sm outline-none bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm border-slate-300/50 dark:border-slate-600/50 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
               <span id="name-error" class="hidden mt-1 text-sm text-red-500"
               ></span>
@@ -73,7 +75,7 @@
                 id="email"
                 name="email"
                 required
-                class="block w-full px-4 py-3 transition-colors border rounded-lg shadow-sm bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm border-slate-300/50 dark:border-slate-600/50 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                class="block w-full px-4 py-3 transition-colors border rounded-lg shadow-sm outline-none bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm border-slate-300/50 dark:border-slate-600/50 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
               <span id="email-error" class="hidden mt-1 text-sm text-red-500"
               ></span>
@@ -90,7 +92,8 @@
               id="subject"
               name="subject"
               required
-              class="block w-full px-4 py-3 transition-colors border rounded-lg shadow-sm bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm border-slate-300/50 dark:border-slate-600/50 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              maxlength="100"
+              class="block w-full px-4 py-3 transition-colors border rounded-lg shadow-sm outline-none bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm border-slate-300/50 dark:border-slate-600/50 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             />
             <span id="subject-error" class="hidden mt-1 text-sm text-red-500"
             ></span>
@@ -106,13 +109,17 @@
               name="message"
               rows="5"
               required
-              class="block w-full px-4 py-3 transition-colors border rounded-lg shadow-sm resize-none bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm border-slate-300/50 dark:border-slate-600/50 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              minlength="10"
+              maxlength="500"
+              class="block w-full px-4 py-3 transition-colors border rounded-lg shadow-sm outline-none resize-none bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm border-slate-300/50 dark:border-slate-600/50 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             ></textarea>
             <span id="message-error" class="hidden mt-1 text-sm text-red-500"
             ></span>
           </div>
-          <button type="submit" class="w-full btn-primary">
-            <span class="flex items-center justify-center">
+          <button type="submit" class="w-full btn-primary group">
+            <span
+              class="flex items-center justify-center transition-transform group-hover:translate-x-1"
+            >
               <svg
                 class="w-5 h-5 mr-2"
                 fill="none"
@@ -130,10 +137,9 @@
           </button>
         </form>
 
-        <!-- Div para mostrar mensajes de éxito o error del servidor -->
         <div
           id="form-status"
-          class="hidden p-4 mt-4 font-medium text-center rounded-lg"
+          class="hidden p-4 mt-4 font-medium text-center transition-all duration-300 rounded-lg"
         >
         </div>
       </div>
@@ -141,50 +147,66 @@
   </div>
 </section>
 
+<!-- SCRIPT LIGERO SIN ZOD -->
 <script>
-  // Importamos Zod y nuestro esquema dinámicamente
-  import { z } from 'zod';
-  // CORRECCIÓN: Importamos contactSchema con llaves por ser una exportación con nombre
-  import { contactSchema } from '../lib/contactSchema.ts';
-
   document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('contact-form') as HTMLFormElement;
     const statusDiv = document.getElementById('form-status');
 
-    if (!form || !statusDiv) {
-      console.error('Error: No se encontró el formulario o el div de estado.');
-      return;
+    if (!form || !statusDiv) return;
+
+    function validateField(
+      input: HTMLInputElement | HTMLTextAreaElement,
+    ): boolean {
+      const errorSpan = document.getElementById(`${input.id}-error`);
+      if (!errorSpan) return true;
+
+      if (input.hasAttribute('required') && !input.value.trim()) {
+        errorSpan.textContent = 'Este campo es obligatorio';
+        errorSpan.classList.remove('hidden');
+        return false;
+      }
+
+      if (input.type === 'email' && input.value) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(input.value)) {
+          errorSpan.textContent = 'Por favor ingresa un email válido';
+          errorSpan.classList.remove('hidden');
+          return false;
+        }
+      }
+
+      if (input.minLength > 0 && input.value.length < input.minLength) {
+        errorSpan.textContent = `Mínimo ${input.minLength} caracteres`;
+        errorSpan.classList.remove('hidden');
+        return false;
+      }
+
+      errorSpan.classList.add('hidden');
+      return true;
     }
 
     form.addEventListener('submit', async event => {
       event.preventDefault();
 
-      // 1. Limpiar errores anteriores
       clearErrors();
 
-      // 2. Obtener datos del formulario
-      const formData = new FormData(form);
-      const rawData = {
-        name: formData.get('name'),
-        email: formData.get('email'),
-        subject: formData.get('subject'),
-        message: formData.get('message'),
-      };
+      const inputs = Array.from(form.querySelectorAll('input, textarea')) as (
+        | HTMLInputElement
+        | HTMLTextAreaElement
+      )[];
+      let isValid = true;
 
-      // 3. Validar con Zod usando safeParse
-      const result = contactSchema.safeParse(rawData);
+      inputs.forEach(input => {
+        if (!validateField(input)) isValid = false;
+      });
 
-      // 4. Si la validación falla, mostrar errores
-      if (!result.success) {
-        const fieldErrors = result.error.flatten().fieldErrors;
-        displayErrors(fieldErrors);
-        return; // Detener el envío
-      }
+      if (!isValid) return;
 
-      // 5. Si la validación es exitosa, enviar el formulario
       setStatus('Enviando mensaje...', 'loading');
 
       try {
+        const formData = new FormData(form);
         const response = await fetch(form.action, {
           method: 'POST',
           body: formData,
@@ -206,27 +228,14 @@
           );
         }
       } catch (error: unknown) {
-        let errorMessage = 'Ocurrió un error desconocido.';
-        if (error instanceof Error) {
-          errorMessage = error.message;
-        }
+        const errorMessage =
+          error instanceof Error ? error.message : 'Error desconocido';
         setStatus(errorMessage, 'error');
       }
     });
 
-    function displayErrors(errors: Record<string, string[]>) {
-      Object.keys(errors).forEach(field => {
-        const errorElement = document.getElementById(`${field}-error`);
-        if (errorElement && errors[field]) {
-          errorElement.textContent = errors[field][0];
-          errorElement.classList.remove('hidden');
-        }
-      });
-    }
-
     function clearErrors() {
-      // CORRECCIÓN: Añadimos '!' porque TypeScript no puede asegurar que 'form' no es null aquí
-      const errorElements = form!.querySelectorAll('[id$="-error"]');
+      const errorElements = form.querySelectorAll('[id$="-error"]');
       errorElements.forEach(el => {
         el.textContent = '';
         el.classList.add('hidden');
@@ -234,52 +243,29 @@
     }
 
     function setStatus(message: string, type: 'loading' | 'success' | 'error') {
-      // CORRECCIÓN: Añadimos '!' para decirle a TypeScript que confíe en que statusDiv no es null
-      statusDiv!.textContent = message;
-      statusDiv!.classList.remove(
+      if (!statusDiv) return;
+      statusDiv.textContent = message;
+      statusDiv.classList.remove(
         'hidden',
-        'bg-red-100',
-        'text-red-700',
-        'dark:bg-red-900/30',
-        'dark:text-red-400',
-        'bg-green-100',
-        'text-green-700',
-        'dark:bg-green-900/30',
-        'dark:text-green-400',
         'bg-blue-100',
         'text-blue-700',
-        'dark:bg-blue-900/30',
-        'dark:text-blue-400',
+        'bg-green-100',
+        'text-green-700',
+        'bg-red-100',
+        'text-red-700',
       );
 
-      if (type === 'loading') {
-        statusDiv!.classList.add(
-          'bg-blue-100',
-          'text-blue-700',
-          'dark:bg-blue-900/30',
-          'dark:text-blue-400',
-        );
-      } else if (type === 'success') {
-        statusDiv!.classList.add(
-          'bg-green-100',
-          'text-green-700',
-          'dark:bg-green-900/30',
-          'dark:text-green-400',
-        );
-      } else {
-        statusDiv!.classList.add(
-          'bg-red-100',
-          'text-red-700',
-          'dark:bg-red-900/30',
-          'dark:text-red-400',
-        );
-      }
+      if (type === 'loading')
+        statusDiv.classList.add('bg-blue-100', 'text-blue-700');
+      else if (type === 'success')
+        statusDiv.classList.add('bg-green-100', 'text-green-700');
+      else statusDiv.classList.add('bg-red-100', 'text-red-700');
     }
   });
 </script>
 
 <style>
-  /* Estilos para el efecto de humo (sin cambios) */
+  /* Animación de humo OPTIMIZADA: Sin blur en el CSS, solo opacidad y gradiente */
   .smoke-container {
     position: absolute;
     top: 0;
@@ -288,57 +274,60 @@
     height: 100%;
     overflow: hidden;
     z-index: -1;
+    pointer-events: none;
   }
   .smoke {
     position: absolute;
     bottom: -10%;
-    left: 10%;
     width: 80%;
     height: 80%;
+    /* El gradiente ya es suave, no necesitamos filter: blur */
     background: radial-gradient(
-      ellipse at center,
-      rgba(255, 255, 255, 0.3) 0%,
-      rgba(255, 255, 255, 0) 70%
+      circle,
+      rgba(255, 255, 255, 0.2) 0%,
+      transparent 80%
     );
-    opacity: 0.4;
+    opacity: 0;
     border-radius: 50%;
-    filter: blur(40px);
+    will-change: transform, opacity;
     animation: smoke-animation 15s infinite ease-in-out;
   }
   .smoke-1 {
+    left: 10%;
     animation-delay: 0s;
     background: radial-gradient(
-      ellipse at center,
-      rgba(59, 130, 246, 0.3) 0%,
-      rgba(59, 130, 246, 0) 70%
+      circle,
+      rgba(59, 130, 246, 0.15) 0%,
+      transparent 80%
     );
   }
   .smoke-2 {
     left: 30%;
     animation-delay: 5s;
     background: radial-gradient(
-      ellipse at center,
-      rgba(168, 85, 247, 0.3) 0%,
-      rgba(168, 85, 247, 0) 70%
+      circle,
+      rgba(168, 85, 247, 0.15) 0%,
+      transparent 80%
     );
   }
   .smoke-3 {
     left: 60%;
     animation-delay: 10s;
     background: radial-gradient(
-      ellipse at center,
-      rgba(236, 72, 153, 0.3) 0%,
-      rgba(236, 72, 153, 0) 70%
+      circle,
+      rgba(236, 72, 153, 0.15) 0%,
+      transparent 80%
     );
   }
+
   @keyframes smoke-animation {
     0% {
       transform: translateY(0) scale(1);
-      opacity: 0.4;
+      opacity: 0;
     }
     50% {
       transform: translateY(-50%) scale(1.2);
-      opacity: 0.2;
+      opacity: 0.3; /* Bajamos opacidad un poco */
     }
     100% {
       transform: translateY(-100%) scale(1.5);

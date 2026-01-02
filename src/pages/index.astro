@@ -7,7 +7,6 @@ import AboutSection from '../components/AboutSection.astro';
 import ContactSection from '../components/ContactSection.astro';
 import Footer from '../components/Footer.astro';
 import RevealOnScroll from '../components/RevealOnScroll.astro';
-// Eliminamos la importación de Image de astro:assets porque no la usaremos
 ---
 
 <Layout
@@ -23,13 +22,16 @@ import RevealOnScroll from '../components/RevealOnScroll.astro';
         <div
           class="flex flex-col items-start gap-4 mb-6 sm:flex-row sm:items-center animate-fade-in"
         >
-          <!-- Usamos una etiqueta img normal en lugar del componente Image -->
+          <!-- OPTIMIZACIÓN: fetchpriority="high" mejora el LCP -->
+          <!-- IMPORTANTE: Debes redimensionar este archivo a 200x200px manualmente en tu computadora -->
           <img
             src="/images/avatar.webp"
             alt="Avatar de Reineldi Umpierre"
             class="object-cover w-24 h-24 border-4 rounded-full shadow-xl border-slate-200 dark:border-slate-700 float-animation"
             width={96}
             height={96}
+            loading="eager"
+            fetchpriority="high"
           />
           <div class="flex flex-col gap-2">
             <a
@@ -50,7 +52,6 @@ import RevealOnScroll from '../components/RevealOnScroll.astro';
           </div>
         </div>
 
-        <!-- El resto del código sin cambios -->
         <h1
           class="mb-4 font-extrabold text-slate-900 dark:text-white font-display animate-slide-up"
           style="animation-delay: 0.1s; font-size: clamp(2.5rem, 5vw, 4rem);"
@@ -85,87 +86,72 @@ import RevealOnScroll from '../components/RevealOnScroll.astro';
         </div>
       </div>
     </div>
-
-    <!-- El resto del código sin cambios -->
-    <div
-      class="absolute bg-purple-300 rounded-full top-20 right-10 w-72 h-72 mix-blend-multiply filter blur-xl opacity-20 animate-blob"
-    >
-    </div>
-    <div
-      class="absolute bg-yellow-300 rounded-full top-40 left-20 w-72 h-72 mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-2000"
-    >
-    </div>
-    <div
-      class="absolute bg-pink-300 rounded-full -bottom-8 right-20 w-72 h-72 mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-4000"
-    >
-    </div>
   </section>
+</Layout>
 
-  <!-- El resto del código sin cambios -->
-  <RevealOnScroll>
-    <ExperienceSection />
-  </RevealOnScroll>
-  <RevealOnScroll>
-    <ProjectsSection />
-  </RevealOnScroll>
-  <RevealOnScroll>
-    <AboutSection />
-  </RevealOnScroll>
-  <RevealOnScroll>
-    <ContactSection />
-  </RevealOnScroll>
-  <RevealOnScroll>
-    <Footer />
-  </RevealOnScroll>
+<RevealOnScroll>
+  <ExperienceSection />
+</RevealOnScroll>
+<RevealOnScroll>
+  <ProjectsSection />
+</RevealOnScroll>
+<RevealOnScroll>
+  <AboutSection />
+</RevealOnScroll>
+<RevealOnScroll>
+  <ContactSection />
+</RevealOnScroll>
+<RevealOnScroll>
+  <Footer />
+</RevealOnScroll>
 
-  <style>
-    @keyframes fade-in {
-      from {
-        opacity: 0;
-      }
-      to {
-        opacity: 1;
-      }
-    }
-    @keyframes slide-up {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-    @keyframes blob {
-      0% {
-        transform: translate(0px, 0px) scale(1);
-      }
-      33% {
-        transform: translate(30px, -50px) scale(1.1);
-      }
-      66% {
-        transform: translate(-20px, 20px) scale(0.9);
-      }
-      100% {
-        transform: translate(0px, 0px) scale(1);
-      }
-    }
-    .animate-fade-in {
-      animation: fade-in 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-    }
-    .animate-slide-up {
-      animation: slide-up 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+<style>
+  @keyframes fade-in {
+    from {
       opacity: 0;
     }
-    .animate-blob {
-      animation: blob 7s infinite;
+    to {
+      opacity: 1;
     }
-    .animation-delay-2000 {
-      animation-delay: 2s;
+  }
+  @keyframes slide-up {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
     }
-    .animation-delay-4000 {
-      animation-delay: 4s;
+    to {
+      opacity: 1;
+      transform: translateY(0);
     }
-  </style>
-</Layout>
+  }
+  @keyframes blob {
+    0% {
+      transform: translate(0px, 0px) scale(1);
+    }
+    33% {
+      transform: translate(30px, -50px) scale(1.1);
+    }
+    66% {
+      transform: translate(-20px, 20px) scale(0.9);
+    }
+    100% {
+      transform: translate(0px, 0px) scale(1);
+    }
+  }
+  .animate-fade-in {
+    animation: fade-in 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+  .animate-slide-up {
+    animation: slide-up 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    opacity: 0;
+  }
+  .animate-blob {
+    animation: blob 7s infinite;
+  }
+  .animation-delay-2000 {
+    animation-delay: 2s;
+  }
+  .animation-delay-4000 {
+    animation-delay: 4s;
+  }
+</style>

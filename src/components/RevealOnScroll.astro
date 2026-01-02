@@ -7,61 +7,55 @@
 </div>
 
 <style>
-  /* ESTADO INICIAL: El "espejo empañado" */
+  /* ESTADO INICIAL: La "Niebla" (Blur) + Opacidad baja */
   .reveal-on-scroll-container {
-    opacity: 0.5; /* Semi-transparente */
-    filter: blur(8px) brightness(0.7); /* Desenfocado y un poco oscuro */
-    transform: scale(
-      0.95
-    ); /* Un ligero zoom-out para dar más impacto al aparecer */
+    opacity: 0.4;
+    /* El filter: blur(10px) crea el efecto de espejo empañado */
+    filter: blur(10px) brightness(0.8);
+    transform: translateY(20px) scale(0.98);
+
+    /* Transición suave para que se vea elegante */
     transition:
       opacity 0.8s ease-out,
       filter 0.8s ease-out,
-      transform 0.8s ease-out; /* Suavizamos la transición de todas las propiedades */
+      transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+
+    /* OPTIMIZACIÓN CLAVE: Le decimos al navegador que prepare la GPU */
+    will-change: transform, opacity, filter;
   }
 
-  /* ESTADO FINAL: "Completamente iluminado" */
+  /* ESTADO FINAL: "Brillante" (Nítido y claro) */
   .reveal-on-scroll-container.is-revealed {
-    opacity: 1; /* Totalmente visible */
-    filter: blur(0) brightness(1); /* Nítido y con brillo normal */
-    transform: scale(1); /* Vuelve a su tamaño original */
+    opacity: 1;
+    filter: blur(0) brightness(1); /* Quitamos la niebla */
+    transform: translateY(0) scale(1);
+
+    /* Reseteamos will-change para ahorrar batería cuando la animación termina */
+    will-change: auto;
   }
 </style>
 
 <script>
   function initRevealOnScroll() {
     const containers = document.querySelectorAll('.reveal-on-scroll-container');
-
-    // Si no hay contenedores, no hacemos nada
     if (!containers.length) return;
 
     const observer = new IntersectionObserver(
       entries => {
         entries.forEach(entry => {
-          // Cuando el contenedor sea visible (al menos un 15%)
           if (entry.isIntersecting) {
             entry.target.classList.add('is-revealed');
-            // Dejamos de observar el elemento para mejorar el rendimiento
             observer.unobserve(entry.target);
           }
         });
       },
-      {
-        root: null, // Observa dentro del viewport
-        rootMargin: '0px',
-        threshold: 0.15, // El efecto se activa cuando el 15% del elemento es visible
-      },
+      { rootMargin: '0px', threshold: 0.1 },
     );
 
-    containers.forEach(container => {
-      observer.observe(container);
-    });
+    containers.forEach(container => observer.observe(container));
   }
 
-  // --- SOLUCIÓN CLAVE: Ejecutar después de ViewTransitions ---
-  // Usamos el mismo patrón que con el scroll spy.
-  document.addEventListener('astro:page-load', () => {
-    // Pequeño retraso para asegurar que el DOM esté completamente listo
-    setTimeout(initRevealOnScroll, 200);
-  });
+  document.addEventListener('astro:page-load', initRevealOnScroll);
+  if (document.readyState !== 'loading') initRevealOnScroll();
+  else document.addEventListener('DOMContentLoaded', initRevealOnScroll);
 </script>

@@ -16,6 +16,9 @@ import GlowEffect from '../components/GlowEffect.astro';
 import BackgroundDecorations from '../components/BackgroundDecorations.astro';
 
 import { ViewTransitions } from 'astro:transitions';
+
+// CORRECCIÓN SEO: Recibimos props para el título y la descripción
+const { title, description = 'Portfolio de desarrollo web' } = Astro.props;
 ---
 
 <html lang="es">
@@ -24,7 +27,17 @@ import { ViewTransitions } from 'astro:transitions';
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
-    <title>Umpi-Porfolio</title>
+
+    <!-- CORRECCIÓN SEO: Título dinámico -->
+    <title>{title}</title>
+
+    <!-- CORRECCIÓN SEO: Meta descripción dinámica -->
+    <meta name="description" content={description} />
+
+    <!-- OPTIMIZACIÓN: Preconnect para fuentes (ayuda al rendimiento de carga) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
     <ViewTransitions />
     <style is:global>
       /* Deshabilitar completamente el difuminado durante las View Transitions */
@@ -55,7 +68,7 @@ import { ViewTransitions } from 'astro:transitions';
     <script is:inline>
       // --- SISTEMA DE TEMA CENTRALIZADO Y ROBUSTO ---
 
-      // 1. Función para aplicar el tema (sin cambios)
+      // 1. Función para aplicar el tema
       function setTheme(theme) {
         const root = document.documentElement;
         if (theme === 'dark') {
@@ -68,7 +81,7 @@ import { ViewTransitions } from 'astro:transitions';
         }
       }
 
-      // 2. Función para obtener el tema preferido (sin cambios)
+      // 2. Función para obtener el tema preferido
       function getThemePreference() {
         if (
           typeof localStorage !== 'undefined' &&
@@ -119,7 +132,7 @@ import { ViewTransitions } from 'astro:transitions';
       // - Después de cada transición de página de Astro
       document.addEventListener('astro:page-load', initTheme);
 
-      // 6. Escuchamos cambios en el sistema operativo (sin cambios)
+      // 6. Escuchamos cambios en el sistema operativo
       window
         .matchMedia('(prefers-color-scheme: dark)')
         .addEventListener('change', e => {
@@ -128,7 +141,7 @@ import { ViewTransitions } from 'astro:transitions';
           }
         });
 
-      // Scroll Spy definitivo y robusto (sin cambios)
+      // Scroll Spy definitivo y robusto
       function initScrollSpy() {
         const sections = document.querySelectorAll('section[id]');
         const navItems = document.querySelectorAll('.nav-item');

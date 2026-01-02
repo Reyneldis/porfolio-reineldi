@@ -12,7 +12,6 @@
     left: 0;
     width: 600px;
     height: 600px;
-    /* CAMBIA TEMPORALMENTE EL FONDO PARA PROBAR */
     background: radial-gradient(
       ellipse at center,
       rgba(139, 92, 246, 0.15) 0%,
@@ -20,11 +19,11 @@
       transparent 70%
     );
     border-radius: 50%;
-    pointer-events: none; /* IMPORTANTE: No bloquea clics */
-    opacity: 1; /* Ponlo siempre visible para la prueba */
+    pointer-events: none;
+    opacity: 1;
     transition: opacity 0.5s ease;
-    z-index: 10; /* Debajo del navbar */
-    will-change: transform;
+    z-index: 10;
+    will-change: transform; /* Optimización: Avisa al navegador que esto va a cambiar */
   }
 </style>
 
@@ -40,10 +39,25 @@
       return;
     }
 
+    // OPTIMIZACIÓN: Usar requestAnimationFrame para evitar bloquear el hilo principal
+    let rafId: number | null = null;
+    let currentX = -300;
+    let currentY = -300;
+
+    const updatePosition = () => {
+      glow.style.transform = `translate3d(${currentX}px, ${currentY}px, 0)`;
+      rafId = null;
+    };
+
     const moveGlow = (e: MouseEvent) => {
-      const x = e.clientX - 300; // 300 es la mitad de 600px
-      const y = e.clientY - 300; // 300 es la mitad de 600px
-      glow.style.transform = `translate(${x}px, ${y}px)`;
+      // Calcular la posición objetivo
+      currentX = e.clientX - 300;
+      currentY = e.clientY - 300;
+
+      // Solicitar el siguiente frame si no hay uno pendiente
+      if (!rafId) {
+        rafId = requestAnimationFrame(updatePosition);
+      }
     };
 
     const showGlow = () => {

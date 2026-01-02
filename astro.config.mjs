@@ -1,10 +1,9 @@
-// astro.config.mjs
+// src/astro.config.mjs
 import { defineConfig } from 'astro/config';
 import tailwind from '@astrojs/tailwind';
 
 export default defineConfig({
-  // Hemos quitado la configuración de imágenes para evitar errores
-  // Usaremos el componente <Image /> con rutas directas desde public/
+  output: 'static',
   integrations: [tailwind()],
-  output: 'hybrid',
+  // He eliminado la configuración de image/sharp que causaba el error
 });

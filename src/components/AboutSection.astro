@@ -1,6 +1,5 @@
 ---
-import { Image } from 'astro:assets';
-import sobreImage from '../../public/images/sobre.webp'; // La imagen ahora viene de public
+// src/components/AboutSection.astro
 ---
 
 <section id="about" class="relative py-20 overflow-hidden scroll-mt-24">
@@ -29,15 +28,32 @@ import sobreImage from '../../public/images/sobre.webp'; // La imagen ahora vien
     <div class="flex flex-col gap-12">
       <div class="flex flex-col gap-6 text-center">
         <h2
-          class="relative inline-block text-3xl font-bold md:text-4xl text-slate-900 dark:text-white font-display"
+          class="relative inline-flex items-center justify-center gap-3 text-3xl font-bold md:text-4xl text-slate-900 dark:text-white font-display"
         >
+          <!-- Icono Usuario Check -->
+          <svg
+            class="w-8 h-8 text-blue-600 dark:text-blue-400"
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            stroke-width="2"
+            stroke="currentColor"
+            fill="none"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            ><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path
+              d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"></path><path
+              d="M6 21v-2a4 4 0 0 1 4 -4h4"></path><path d="M15 19l2 2l4 -4"
+            ></path></svg
+          >
           Acerca de mí
           <span
             class="absolute bottom-0 w-24 h-1 transform -translate-x-1/2 rounded-full left-1/2 bg-gradient-to-r from-blue-500 to-purple-500"
           ></span>
         </h2>
         <p
-          class="max-w-2xl mx-auto text-lg leading-relaxed text-slate-600 dark:text-slate-400"
+          class="max-w-2xl mx-auto text-lg leading-relaxed text-slate-700 dark:text-slate-300"
         >
           Desarrollador web de Camagüey, Cuba, graduado en la Universidad
           Ignacio Agramonte Loynaz, especializado en crear experiencias
@@ -49,11 +65,27 @@ import sobreImage from '../../public/images/sobre.webp'; // La imagen ahora vien
         <div class="flex flex-col order-2 gap-8 md:order-1">
           <div class="space-y-2">
             <h3
-              class="text-2xl font-bold text-slate-900 dark:text-slate-100 font-display"
+              class="flex items-center gap-2 text-2xl font-bold text-slate-900 dark:text-slate-100 font-display"
             >
+              <!-- Icono Código -->
+              <svg
+                class="w-6 h-6 text-blue-600 dark:text-blue-400"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                stroke-width="2"
+                stroke="currentColor"
+                fill="none"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                ><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path
+                  d="M7 8l-4 4l4 4"></path><path d="M17 8l4 4l-4 4"></path><path
+                  d="M14 4l-4 16"></path></svg
+              >
               Sobre mí
             </h3>
-            <p class="leading-relaxed text-slate-600 dark:text-slate-400">
+            <p class="leading-relaxed text-slate-700 dark:text-slate-300">
               Soy un desarrollador web de Camagüey, Cuba. Apasionado por la
               tecnología y la innovación, me especializo en crear soluciones
               digitales modernas y eficientes que ayuden a las empresas a crecer
@@ -66,7 +98,7 @@ import sobreImage from '../../public/images/sobre.webp'; // La imagen ahora vien
             >
               Educación
             </h3>
-            <p class="leading-relaxed text-slate-600 dark:text-slate-400">
+            <p class="leading-relaxed text-slate-700 dark:text-slate-300">
               Graduado en Ingeniería Informática en la Universidad Ignacio
               Agramonte Loynaz de Camagüey, con especialización en desarrollo
               web y tecnologías modernas. Constantemente actualizando mis
@@ -79,7 +111,7 @@ import sobreImage from '../../public/images/sobre.webp'; // La imagen ahora vien
             >
               Experiencia
             </h3>
-            <p class="leading-relaxed text-slate-600 dark:text-slate-400">
+            <p class="leading-relaxed text-slate-700 dark:text-slate-300">
               He trabajado en diversos proyectos de desarrollo web, tanto en
               Cuba como internacionalmente, creando aplicaciones web modernas y
               responsivas que se adaptan a las necesidades de cada cliente.
@@ -96,13 +128,13 @@ import sobreImage from '../../public/images/sobre.webp'; // La imagen ahora vien
             <div
               class="relative overflow-hidden transition-all duration-500 transform border-4 border-white shadow-2xl rounded-3xl dark:border-slate-800 -rotate-3 group-hover:-rotate-1 group-hover:scale-105"
             >
-              <Image
-                src={sobreImage}
+              <img
+                src="/images/sobre.webp"
                 alt="Foto de Reineldi Umpierre"
                 class="object-cover transition-transform duration-700 w-80 h-80 group-hover:scale-110"
-                width={320}
-                height={320}
-                format="webp"
+                width="320"
+                height="320"
+                loading="lazy"
               />
             </div>
           </div>
