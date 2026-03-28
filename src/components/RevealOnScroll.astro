@@ -7,24 +7,17 @@
 </div>
 
 <style>
-  /* Estado inicial: Oculto y ligeramente abajo */
   .reveal-on-scroll-container {
     opacity: 0;
-    transform: translateY(30px);
-
-    /* Transición optimizada solo para propiedades GPU (opacity, transform) */
+    transform: translateY(30px); /* Solo movimiento */
     transition:
       opacity 0.8s ease-out,
       transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-
-    will-change: opacity, transform;
   }
 
-  /* Estado final: Visible y en posición */
   .reveal-on-scroll-container.is-revealed {
     opacity: 1;
     transform: translateY(0);
-    will-change: auto;
   }
 </style>
 

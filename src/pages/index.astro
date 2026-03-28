@@ -105,6 +105,7 @@ import RevealOnScroll from '../components/RevealOnScroll.astro';
 </RevealOnScroll>
 
 <style>
+  /* Animaciones optimizadas para GPU */
   @keyframes fade-in {
     from {
       opacity: 0;
@@ -113,6 +114,7 @@ import RevealOnScroll from '../components/RevealOnScroll.astro';
       opacity: 1;
     }
   }
+
   @keyframes slide-up {
     from {
       opacity: 0;
@@ -123,11 +125,33 @@ import RevealOnScroll from '../components/RevealOnScroll.astro';
       transform: translateY(0);
     }
   }
+
+  /* Animación del avatar optimizada */
+  @keyframes float {
+    0% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+    100% {
+      transform: translateY(0px);
+    }
+  }
+
   .animate-fade-in {
     animation: fade-in 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
   }
+
   .animate-slide-up {
     animation: slide-up 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
     opacity: 0;
   }
+
+  .float-animation {
+    animation: float 3s ease-in-out infinite;
+    will-change: transform; /* Avisa al navegador que use la GPU */
+  }
+
+  /* ELIMINAMOS 'blob' y otras animaciones complejas que ralentizan */
 </style>
