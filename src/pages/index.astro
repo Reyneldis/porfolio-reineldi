@@ -11,7 +11,7 @@ import RevealOnScroll from '../components/RevealOnScroll.astro';
 
 <Layout
   title="Reineldi Umpierre - Desarrollador Web"
-  description="Contrata a umpi para crear tu aplicación web. Desarrollador Web , especialista en desarrollar tu gusto . "
+  description="Contrata a Umpi para crear tu aplicación web. Desarrollador Web, especialista en desarrollar tu gusto."
 >
   <section
     id="home"
@@ -22,8 +22,6 @@ import RevealOnScroll from '../components/RevealOnScroll.astro';
         <div
           class="flex flex-col items-start gap-4 mb-6 sm:flex-row sm:items-center animate-fade-in"
         >
-          <!-- OPTIMIZACIÓN: fetchpriority="high" mejora el LCP -->
-          <!-- IMPORTANTE: Debes redimensionar este archivo a 200x200px manualmente en tu computadora -->
           <img
             src="/images/avatar.webp"
             alt="Avatar de Reineldi Umpierre"
@@ -31,7 +29,6 @@ import RevealOnScroll from '../components/RevealOnScroll.astro';
             width={96}
             height={96}
             loading="eager"
-            fetchpriority="high"
           />
           <div class="flex flex-col gap-2">
             <a
@@ -46,7 +43,8 @@ import RevealOnScroll from '../components/RevealOnScroll.astro';
               </svg>
               Disponible para trabajar
             </a>
-            <p class="text-sm text-slate-500 dark:text-slate-400">
+            <!-- Accesibilidad corregida: dark:text-slate-300 -->
+            <p class="text-sm text-slate-500 dark:text-slate-300">
               Respuesta en menos de 24h
             </p>
           </div>
@@ -56,8 +54,9 @@ import RevealOnScroll from '../components/RevealOnScroll.astro';
           class="mb-4 font-extrabold text-slate-900 dark:text-white font-display animate-slide-up"
           style="animation-delay: 0.1s; font-size: clamp(2.5rem, 5vw, 4rem);"
         >
+          <!-- Accesibilidad corregida: dark:text-orange-300 -->
           <span
-            class="block text-blue-600 dark:text-orange-100"
+            class="block text-blue-600 dark:text-orange-300"
             style="font-size: clamp(1.5rem, 4vw, 2.5rem);"
             >👋 Soy Reineldi.</span
           >
@@ -68,7 +67,7 @@ import RevealOnScroll from '../components/RevealOnScroll.astro';
           style="animation-delay: 0.2s; font-size: clamp(1rem, 2vw, 1.25rem);"
         >
           Ingeniero Informático y <span
-            class="font-bold text-orange-400 dark:text-orange-300"
+            class="font-bold text-orange-500 dark:text-orange-300"
             >Desarrollador Web</span
           >, enfocado en construir experiencias digitales rápidas, accesibles y
           con un diseño impecable.
@@ -124,34 +123,11 @@ import RevealOnScroll from '../components/RevealOnScroll.astro';
       transform: translateY(0);
     }
   }
-  @keyframes blob {
-    0% {
-      transform: translate(0px, 0px) scale(1);
-    }
-    33% {
-      transform: translate(30px, -50px) scale(1.1);
-    }
-    66% {
-      transform: translate(-20px, 20px) scale(0.9);
-    }
-    100% {
-      transform: translate(0px, 0px) scale(1);
-    }
-  }
   .animate-fade-in {
     animation: fade-in 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
   }
   .animate-slide-up {
     animation: slide-up 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
     opacity: 0;
-  }
-  .animate-blob {
-    animation: blob 7s infinite;
-  }
-  .animation-delay-2000 {
-    animation-delay: 2s;
-  }
-  .animation-delay-4000 {
-    animation-delay: 4s;
   }
 </style>

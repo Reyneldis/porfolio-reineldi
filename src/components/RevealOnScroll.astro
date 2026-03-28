@@ -7,30 +7,23 @@
 </div>
 
 <style>
-  /* ESTADO INICIAL: La "Niebla" (Blur) + Opacidad baja */
+  /* Estado inicial: Oculto y ligeramente abajo */
   .reveal-on-scroll-container {
-    opacity: 0.4;
-    /* El filter: blur(10px) crea el efecto de espejo empañado */
-    filter: blur(10px) brightness(0.8);
-    transform: translateY(20px) scale(0.98);
+    opacity: 0;
+    transform: translateY(30px);
 
-    /* Transición suave para que se vea elegante */
+    /* Transición optimizada solo para propiedades GPU (opacity, transform) */
     transition:
       opacity 0.8s ease-out,
-      filter 0.8s ease-out,
       transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 
-    /* OPTIMIZACIÓN CLAVE: Le decimos al navegador que prepare la GPU */
-    will-change: transform, opacity, filter;
+    will-change: opacity, transform;
   }
 
-  /* ESTADO FINAL: "Brillante" (Nítido y claro) */
+  /* Estado final: Visible y en posición */
   .reveal-on-scroll-container.is-revealed {
     opacity: 1;
-    filter: blur(0) brightness(1); /* Quitamos la niebla */
-    transform: translateY(0) scale(1);
-
-    /* Reseteamos will-change para ahorrar batería cuando la animación termina */
+    transform: translateY(0);
     will-change: auto;
   }
 </style>
