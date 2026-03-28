@@ -1,9 +1,9 @@
-// src/astro.config.mjs
 import { defineConfig } from 'astro/config';
 import tailwind from '@astrojs/tailwind';
 
 export default defineConfig({
-  output: 'static',
+  // Pon tu URL de Vercel (la obtendrás al desplegar) o la de GitHub Pages
+  site: 'https://porfolio-reineldi.vercel.app', 
   integrations: [tailwind()],
-  // He eliminado la configuración de image/sharp que causaba el error
+  output: 'static',
 });
