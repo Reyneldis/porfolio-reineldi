@@ -32,7 +32,7 @@ export const PROJECTS: Project[] = [
     title: 'Porfolio',
     slug: 'umpi-portfolio', // <-- SLUG AMIGABLE PARA URL
     description: 'Plataforma estable de mi portafolio personal.',
-    link: 'https://adventjs.dev',
+    link: 'https://porfolio-reineldi-tumb.vercel.app/',
     github: 'https://github.com/Reyneldis/porfolio-reineldi',
     image: 'porfolio.webp', // <-- SOLO EL NOMBRE DEL ARCHIVO
     tech: ['Astro', 'TypeScript', 'Tailwind CSS'],
